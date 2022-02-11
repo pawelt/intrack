@@ -1,13 +1,17 @@
 <html>
 
 <head>
-    <title>Investment tracker</title>
-    <meta http-equiv="content-type" content="text/html; charset=utf-8" />
-    <link rel="shortcut icon" href="#" />
+  <title>Investment tracker</title>
+  <meta http-equiv="content-type" content="text/html; charset=utf-8" />
+  <link rel="shortcut icon" href="#" />
 </head>
 
-<body>
-    Hello there!
-</body>
+<body></body>
+<script>
+  if (location.hostname === 'localhost') {
+    new EventSource(`http://localhost:12345`).onmessage = ({ data }) => data === 'RELOAD' && location.reload();
+  }
+</script>
+<script type="module" src="index.js"></script>
 
 </html>
