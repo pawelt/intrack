@@ -73,90 +73,90 @@ It will NOT be removed from wallets (you will need to do it manually)`)||await I
         padding: 0.2rem 0.5rem;
       }
 
+      [data-xname='toggle-instruments'] {
+        position: absolute;
+        width: 100%;
+        height: 100%;
+      }
 
-    [data-xname="toggle-instruments"] {
-      position: absolute;
-      width:  100%;
-      height: 100%;
-    }
-
-    .name {
-      font-size: 1.2rem;
-      margin-right: 1rem;
-      display: inline-block;
-    }
-    .comment {
-      display: inline-block;
-      font-size: 0.85rem;
-    }
-    .summary {
-      font-size: 0.85rem;
-      & > div {
+      .name {
+        font-size: 1.2rem;
+        margin-right: 1rem;
         display: inline-block;
-        margin-right: 1.5rem;
+      }
+      .comment {
+        display: inline-block;
+        font-size: 0.85rem;
+      }
+      .summary {
+        font-size: 0.85rem;
+        & > div {
+          display: inline-block;
+          margin-right: 1.5rem;
+        }
       }
     }
-  }
-  [data-xname='instruments'] {
-    border-collapse: collapse;
-    border: 0;
-    font-size: 0.85rem;
+    [data-xname='instruments'] {
+      border-collapse: collapse;
+      border: 0;
+      font-size: 0.85rem;
 
-    @keyframes fade-in {
-      from {
-        opacity: 0;
+      @keyframes fade-in {
+        from {
+          opacity: 0;
+        }
+        to {
+          opacity: 1;
+        }
       }
-      to {
-        opacity: 1;
+      display: none;
+      &.expanded {
+        display: block;
+        animation: fade-in 0.8s;
       }
-    }
-    display: none;
-    &.expanded {
-      display: block;
-      animation: fade-in 0.8s;
-    }
 
-    tr:nth-child(even) {
-      background-color: #efefef;
-    }
-    td,
-    th {
-      padding: 0.3rem 0;
-    }
-    td:first-child,
-    th:first-child {
-      padding-left: 0.4rem;
-    }
-    td:last-child,
-    th:last-child {
-      padding-right: 0.4rem;
-    }
-    .instrument-name {
-      text-align: left;
-    }
-    .price {
-      text-align: right;
-      width: 100px;
-      input {
-        width: 80px;
+      tr:nth-child(even) {
+        background-color: #efefef;
+      }
+      td,
+      th {
+        padding: 0.3rem 0;
+      }
+      td:first-child,
+      th:first-child {
+        padding-left: 0.4rem;
+      }
+      td:last-child,
+      th:last-child {
+        padding-right: 0.4rem;
+      }
+      .instrument-name {
+        text-align: left;
+      }
+      .price {
+        text-align: right;
+        width: 100px;
+        input {
+          width: 80px;
+          text-align: right;
+        }
+      }
+      .percent {
+        text-align: right;
+        width: 60px;
+      }
+      .date {
+        width: 130px;
         text-align: right;
       }
-    }
-    .percent {
-      text-align: right;
-      width: 60px;
-    }
-    .date {
-      width: 130px;
-      text-align: right;
-    }
-    .actions {
-      text-align: right;
-      width: 100px;
-    }
-    .total {
-      font-size: 0.75rem;
-      font-weight: bold;
+      .actions {
+        text-align: right;
+        width: 100px;
+      }
+      .total {
+        font-size: 0.75rem;
+        font-weight: bold;
+      }
     }
   }
 `,lt,ut,ct,$e={},yr=()=>{lt.value="",ut.value=""},Te=()=>{if(be()!=="wallets")return;let e=o(l,null,kt().map(r=>o(dn,{wallet:r}))),t=dt();pt(".new-instrument-field",ct,e),q(ct,e),t.focus()};g(I("add-new-wallet:click"),async()=>{let e=lt?.value||"",t=ut?.value||"";if(!e)return;if(!await Et({name:e,comment:t,instruments:[]})){alert("Failed to create a wallet");return}yr()});g(I("clear-new-wallet:click"),()=>{yr()});g(I("toggle-instruments:click"),({xid:e=""})=>{$e[e]=!$e[e],T({xname:"instruments",xid:e}).classList.toggle("expanded",$e[e])});var vr=e=>{Q({el:e,xname:"wallet-new-total-price"},""),Q({el:e,xname:"wallet-new-unit-price"},""),Q({el:e,xname:"wallet-new-date"},ot(new Date)),Q({el:e,xname:"wallet-new-instrument"},"")};g(I("wallet-new-clear-instrument:click"),({xid:e=""})=>{vr(T({xname:"wallet",xid:e}))});g(I("wallet-delete-instrument:click"),({xid:e=""})=>{let[t,r]=e.split(":"),n=he()[t],s=n.instruments.find(({id:a})=>""+a===r);!n||!confirm(`Delete instrument ${s?.code} from wallet ${n.name}?`)||(n.instruments=n.instruments.filter(({id:a})=>""+a!==r),Ye(n),Te())});g(I("wallet-new-add-instrument:click"),({xid:e=""})=>{let t=he()[e];if(!t){alert("Wallet "+e+" not found");return}let r=T({xname:"wallet",xid:e});t.instruments.push({id:Date.now(),code:Z({el:r,xname:"wallet-new-instrument"},""),date:Z({el:r,xname:"wallet-new-date"},""),totalPrice:+Z({el:r,xname:"wallet-new-total-price"},""),unitPrice:+Z({el:r,xname:"wallet-new-unit-price"},"")}),Ye(t),vr(r),Te()});g(Ke,Te);g(U,Te);var dn=({wallet:e})=>{let t=ee(),r=e.instruments.map(a=>{let i=t[a.code]?.latestPrice||0,c=a.totalPrice/a.unitPrice,u=i*c;return{id:a.id,instrumentName:t[a.code]?.name??"???",instrumentUrl:t[a.code]?.sourceUrl,change:u/a.totalPrice*100-100,currentTotal:u,currentUnit:i,unitCount:c,paidTotal:a.totalPrice,paidUnit:a.unitPrice,paidDate:a.date}}),n=r.reduce((a,i)=>a+i.currentTotal,0),s=r.reduce((a,i)=>a+i.paidTotal,0);return o("div",{xname:"wallet",xid:e.name},o("div",{class:"title"},o("div",{xname:"toggle-instruments",xid:e.name}),o("div",{class:"name"},e.name),o("div",{class:"comment"},e.comment),o("div",{class:"summary"},o("div",{class:""},"Change\xA0",o("b",null,k(n-s)),"\xA0(",o("b",null,k(n/s*100-100),"%"),")"),o("div",{class:""},"Value ",o("b",null,k(n))),o("div",{class:""},"Paid ",o("b",null,k(s))))),o("table",{xname:"instruments",xid:e.name,class:pr({expanded:$e[e.name]})},o("tr",null,o("th",{class:"instrument-name"},"Instrument"),o("th",{class:"price"},"Change"),o("th",{class:"percent"},"%"),o("th",{class:"price"},"Total value"),o("th",{class:"price"},"Total price"),o("th",{class:"price"},"Unit value"),o("th",{class:"price"},"Unit count"),o("th",{class:"price"},"Unit price"),o("th",{class:"date"},"Date"),o("th",{class:"actions"})),r.map(a=>o("tr",null,o("td",{class:"instrument-name"},o("a",{href:a.instrumentUrl,target:"_blank"},a.instrumentName)),o("td",{class:"price"},k(a.currentTotal-a.paidTotal)),o("td",{class:"percent"},k(a.change)),o("td",{class:"price"},k(a.currentTotal)),o("td",{class:"price"},k(a.paidTotal)),o("td",{class:"price"},k(a.currentUnit)),o("td",{class:"price"},k(a.unitCount)),o("td",{class:"price"},k(a.paidUnit)),o("td",{class:"date"},a.paidDate),o("td",{class:"actions"},o(D,{xname:"wallet-delete-instrument",xid:`${e.name}:${a.id}`,variant:"text"},"Delete")))),o("tr",{class:"total"},o("td",{class:"instrument-name"},"Total"),o("td",{class:"price"},k(n-s)),o("td",{class:"percent"},k(n/s*100-100)),o("td",{class:"price"},k(n)),o("td",{class:"price"},k(s)),o("td",{class:"price"}),o("td",{class:"price"}),o("td",{class:"price"}),o("td",{class:"date"}),o("td",{class:"actions"})),o("tr",null,o("td",null,o("select",{xname:"wallet-new-instrument",xid:e.name,class:"new-instrument-field"},o("option",{value:""}),fe().map(a=>o("option",{value:a.code},a.name)))),o("td",null),o("td",null),o("td",null),o("td",{class:"price"},o("input",{type:"number",xname:"wallet-new-total-price",xid:e.name,class:"new-instrument-field"})),o("td",null),o("td",null),o("td",{class:"price"},o("input",{type:"number",xname:"wallet-new-unit-price",xid:e.name,class:"new-instrument-field"})),o("td",{class:"date"},o("input",{type:"date",xname:"wallet-new-date",xid:e.name,pattern:"yyyy-mm-dd",value:ot(new Date),class:"new-instrument-field"})),o("td",{class:"actions"},o(D,{xname:"wallet-new-add-instrument",xid:e.name},"Add"),o(D,{xname:"wallet-new-clear-instrument",xid:e.name,variant:"text"},"Clear")))))},br=()=>{let e=o("div",{class:un},o("div",null,o("input",{xname:"new-wallet-name"}),"  ",o("input",{xname:"new-wallet-comment"}),"  ",o(D,{xname:"add-new-wallet"},"Create wallet"),"  ",o(D,{xname:"clear-new-wallet",variant:"text"},"Clear")),o("div",{xname:"wallet-list"}));return e.onMount=()=>{lt=T({xname:"new-wallet-name"}),ut=T({xname:"new-wallet-comment"}),ct=T({xname:"wallet-list"}),Te(),console.log("ViewWallets mounted!")},e};var Ie,Se,Tr=()=>{Se.focus();let e=Se.value.trim();!e||(Se.value="",wt(e))},pn=hr((e,t)=>{yt({done:!1,text:t,id:e})},500);g(I("todo-delete:click"),({xid:e=""})=>{vt(e)});g(I("create-todo:click"),()=>{Tr()});g(Ze("new-item-text:keyup"),({ev:e})=>{e.key==="Enter"&&Tr()});g(Ze("todo-text:keyup"),({ev:e,xid:t=""})=>{let{value:r}=e.target;typeof r=="string"&&pn(t,r)});g(ze,({todoId:e})=>{Ce(Ie,T({el:Ie,xname:"todo",xid:e}))});g(He,({todo:e})=>{G(Ie,o(Sr,{todo:e}))});var Sr=({todo:e})=>o("li",{xname:"todo",xid:e.id},o("button",{xname:"todo-delete",xid:e.id}," X "),"\xA0",o("input",{xname:"todo-text",xid:e.id,value:e.text})),Ir=()=>{let e=o("div",null,o("div",null,o("input",{xname:"new-item-text"}),"\xA0",o("button",{xname:"create-todo"},"Add")),o("ol",{xname:"items"}));return e.onMount=async()=>{Ie=T({xname:"items"}),Se=T({xname:"new-item-text"}),Se.focus(),await bt(),q(Ie,...xt().map(t=>o(Sr,{todo:t}))),console.log("ViewTodo mounted!")},e};var mn=V`
